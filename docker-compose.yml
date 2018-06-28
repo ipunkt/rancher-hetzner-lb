@@ -1,0 +1,5 @@
+version: '2'
+services:
+  balancer:
+    build: '.'
+  env_file: .env

@@ -1,0 +1,4 @@
+[template]
+src = "/opt/invetory.tmpl"
+dest = "/opt/playbook/inventory"
+keys = []
