@@ -1,5 +1,8 @@
-version: '2'
+version: '3'
 services:
   balancer:
     build: '.'
-  env_file: .env
+    command: [ 'wait' ]
+    env_file: .env
+    volumes:
+      - ./root/opt/playbook:/opt/playbook

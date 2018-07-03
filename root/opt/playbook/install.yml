@@ -1,0 +1,4 @@
+---
+- import_playbook: init.yml
+- import_playbook: infrastructure.yml
+- import_playbook: cluster.yml

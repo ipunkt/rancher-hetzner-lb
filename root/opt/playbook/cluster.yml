@@ -1,2 +1,17 @@
 ---
-
+- hosts: "{{ lookup('env', 'HOSTS') }}"
+  roles:
+    - role: cluster
+      clustername: loadbalancer
+      clustergroup: fi
+      clusterpw: xQjegJzA9qEtqm2W
+      clusterpwhash: $6$p0VSfSQwQ$JEreEOUNuVoKH.KpNAxqFKGFWB7qOBRQ3bsZSaTspEMtYziUYYAmfs8VfUCy5JhISsY3bW/8aXbyz7hDmzs3G.
+    - role: hetzner_cloud_stonith
+      api_token: "{{ lookup('env', 'HCLOUD_TOKEN') }}"
+      disable_stonith: false
+    - role: cloud_floating_ip
+      api_token: "{{ lookup('env', 'HCLOUD_TOKEN') }}"
+      floating_ip: '{{ lookup('file', 'floating_ip.txt') }}'
+      permanent: true
+      ip_name: 'lb'
+      ip_nic: eth0
