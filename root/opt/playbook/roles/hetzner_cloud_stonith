@@ -1,1 +1,1 @@
-../host_roles/roles/hetzner_cloud_stonith
+../cloud_hosts/roles/hetzner_cloud_stonith

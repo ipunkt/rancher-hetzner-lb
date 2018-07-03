@@ -1,1 +1,1 @@
-../host_roles/roles/cloud_floating_ip
+../cloud_hosts/roles/cloud_floating_ip
