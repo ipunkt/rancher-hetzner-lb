@@ -1,0 +1,4 @@
+- host: localhost
+  roles:
+    - role: hcloud_create_ip
+      ip_description: TestIP

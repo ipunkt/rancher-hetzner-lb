@@ -1,2 +1,4 @@
 ---
-- rancher_registration
+- name: Retrieve the rancher registration image and url
+  rancher_registration:
+  register: rancher_registration_info
