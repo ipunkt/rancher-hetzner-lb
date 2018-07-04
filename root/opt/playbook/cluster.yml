@@ -8,7 +8,7 @@
   roles:
     - role: cluster
       clustername: loadbalancer
-      cluster_ini: "{{ lookup('env', CLUSTER_INI) }}"
+      cluster_ini: "{{ lookup('env', 'CLUSTER_INI') }}"
     - role: hetzner_cloud_stonith
       api_token: "{{ lookup('env', 'HCLOUD_TOKEN') }}"
       disable_stonith: false
