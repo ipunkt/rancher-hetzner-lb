@@ -26,7 +26,8 @@
         register: agent_exists
       - name: Create container
         docker_container:
-          name: rancher-login
+          name: rancher-register
+          auto_remove: true
           state: started
           image: "{{ rancher_registration_info.image }}"
           privileged: true
