@@ -1,11 +1,13 @@
 ---
 - hosts: "{{ lookup('env', 'SERVERS') }}"
   vars:
-    ansible_ssh_private_key_file: "{{ lookup('env', 'SSH_KEY_PATH')) }}"
+    ansible_ssh_private_key_file: "{{ lookup('env', 'SSH_KEY_PATH') }}"
+  pre_tasks:
+    apt:
+      update_cache: yes
   roles:
     - role: cluster
       clustername: loadbalancer
-      clustergroup: fi
       cluster_ini: "{{ lookup('env', CLUSTER_INI) }}"
     - role: hetzner_cloud_stonith
       api_token: "{{ lookup('env', 'HCLOUD_TOKEN') }}"
@@ -16,25 +18,25 @@
       permanent: true
       ip_name: 'lb'
       ip_nic: eth0
-    post_tasks:
-      - name: Retrieve the rancher registration image and url
-        rancher_registration:
-        register: rancher_registration_info
-      - name: Check if host has running rancher-agent
-        shell: docker ps | grep rancher-agent
-        ignore_errors: true
-        register: agent_exists
-      - name: Create container
-        docker_container:
-          name: rancher-register
-          auto_remove: true
-          state: started
-          image: "{{ rancher_registration_info.image }}"
-          privileged: true
-          volumes:
-          - '/var/run/docker.sock:/var/run/docker.sock'
-          - '/var/lib/rancher:/var/lib/rancher'
-          command:
-          - "{{ rancher_registration_info.registrationUrl  }}"
-        when: agent_exists is defined and agent_exists.failed
+  post_tasks:
+    - name: Retrieve the rancher registration image and url
+      rancher_registration:
+      register: rancher_registration_info
+    - name: Check if host has running rancher-agent
+      shell: docker ps | grep rancher-agent
+      ignore_errors: true
+      register: agent_exists
+    - name: Create container
+      docker_container:
+        name: rancher-register
+        auto_remove: true
+        state: started
+        image: "{{ rancher_registration_info.image }}"
+        privileged: true
+        volumes:
+        - '/var/run/docker.sock:/var/run/docker.sock'
+        - '/var/lib/rancher:/var/lib/rancher'
+        command:
+        - "{{ rancher_registration_info.registration_url  }}"
+      when: agent_exists is defined and agent_exists.failed
 

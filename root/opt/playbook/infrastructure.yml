@@ -2,7 +2,7 @@
 - hosts: localhost
   gather_facts: false
   roles:
-    - name: hcloud_create_ip:
+    - role: hcloud_create_ip
       ip_description: "{{ lookup('env', 'FLOATING_IP') }}"
     - name: create_ssh_key
       key_path: "{{ lookup('env', 'SSH_KEY_PATH') }}"
