@@ -18,7 +18,7 @@
       state: present
       image: debian-9
       server_type: cx11
-      location: falkenstein
+      location: fsn1
       ssh_keys:
       - lb_key
     loop: "{{ lookup('env', 'SERVERS').split(':')|flatten }}"
