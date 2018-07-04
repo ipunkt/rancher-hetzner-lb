@@ -5,12 +5,12 @@
     - role: hcloud_create_ip
       ip_description: "{{ lookup('env', 'FLOATING_IP') }}"
     - name: create_ssh_key
-      key_path: "{{ lookup('env', 'SSH_KEY_PATH') }}"
+      key_path: "/data/id_rsa"
   post_tasks:
   - name: Create key
     hcloud_ssh_key:
       name: lb_key
-      public_key: "{{ lookup('file', lookup('env', 'SSH_KEY_PATH')+'.pub') }}"
+      public_key: "{{ lookup('file', '/data/id_rsa.pub') }}"
       state: present
   - name: Create servers
     hcloud_server:
