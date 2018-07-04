@@ -12,7 +12,7 @@
       disable_stonith: false
     - role: cloud_floating_ip
       api_token: "{{ lookup('env', 'HCLOUD_TOKEN') }}"
-      floating_ip: '{{ lookup('file', 'floating_ip.txt') }}'
+      floating_ip: "{{ created_floating_ip.ip }}"
       permanent: true
       ip_name: 'lb'
       ip_nic: eth0

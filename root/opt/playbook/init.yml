@@ -1,5 +1,6 @@
 ---
 - hosts: localhost
+  gather_facts: false
   tasks:
   - name: Check if rancher registration can be accessed before doing anything
     rancher_registration:
