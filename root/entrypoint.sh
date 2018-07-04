@@ -16,26 +16,20 @@ if [ -z "${CATTLE_URL}" ] ; then
 	exit 1
 fi
 
-if [ -z "${CATTLE_AGENT_INSTANCE_ENVIRONMENT_ADMIN_AUTH}" ] ; then
-	echo "This is usually set by rancher when setting the following labels for an infrastructure service:"
-	echo "io.rancher.container.create_agent=true"
-	echo "io.rancher.container.agent.role=environmentAdmin,agent"
-	echo ""
-	echo "If you want to run this script from outside Rancher it is also possible to set this to"
-	echo "'Basic base64(RANCHER_ACCESS_KEY:RANCHER_SECRET_KEY)'"
-	echo "using an account level api key."
-	exit 1
-fi
-
 start() {
 
 	cd /opt/playbook
-	ansible-playbook infrastructure.yml
-	ansible-playbook -i hcloud_inventory "${SERVERS}" cluster.yml
+	ansible-playbook -i library/hcloud_inventory "${SERVERS}" install.yml
 }
 
 init() {
-	SERVERS=${SERVERS:-lb01:lb02}
+	SERVERS="${SERVERS:-lb01:lb02}"
+
+	FLOATING_IP="${FLOATING_IP:-loadbalancer}"
+
+	SSH_KEY_NAME="${SSH_KEY_NAME:-loadbalancer_key}"
+	SSH_KEY_PATH="${SSH_KEY_PATH:-./id_rsa}"
+	CLUSTER_INI="${CLUSTER_INI:-./cluster.ini}"
 
 	confd -onetime -backend env
 }

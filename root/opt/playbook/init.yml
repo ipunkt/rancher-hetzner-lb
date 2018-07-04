@@ -1,4 +1,5 @@
 ---
-- name: Retrieve the rancher registration image and url
-  rancher_registration:
-  register: rancher_registration_info
+- hosts: localhost
+  tasks:
+  - name: Check if rancher registration can be accessed before doing anything
+    rancher_registration:

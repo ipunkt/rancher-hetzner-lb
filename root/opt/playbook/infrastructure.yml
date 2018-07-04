@@ -1,10 +1,15 @@
 ---
-- host: localhost
-  tasks:
+- hosts: localhost
+  roles:
+    - name: hcloud_create_ip:
+      ip_description: "{{ lookup('env', 'FLOATING_IP') }}"
+    - name: create_ssh_key
+      key_path: "{{ lookup('env', 'SSH_KEY_PATH') }}"
+  post_tasks:
   - name: Create key
     hcloud_ssh_key:
       name: lb_key
-      public_key: "{{ lookup('env', 'PUBLIC_KEY') }}"
+      public_key: "{{ lookup('file', lookup('env', 'SSH_KEY_PATH')) }}"
       state: present
   - name: Create servers
     hcloud_server:
@@ -15,17 +20,6 @@
       location: falkenstein
       ssh_keys:
       - lb_key
-    with_list: "{{ servers.split(':') }}"
-  - name: List floating ips
-    hcloud_floating_ip:
-      state: list
-    register: list_ips
-  - name: Create floating ip
-    hcloud_floating_ip:
-      description: loadbalancer
-      state: present
-      type: ipv4
-      server: "{% server_list = servers.split(':') %}{{ server_list[0] }}"
-    when: "{% for ip in list_ips.floating_ips %}{%%}{% endfor %}{% endfor %}"
+    loop: "{{ lookup('env', 'SERVERS').split(':')|flatten }}"
   - name: Refresh inventory with new servers
     meta: refresh_inventory

@@ -1,11 +1,12 @@
 ---
-- hosts: "{{ lookup('env', 'HOSTS') }}"
+- hosts: "{{ lookup('env', 'SERVERS') }}"
+  vars:
+    ansible_ssh_private_key_file: "{{ lookup('env', 'SSH_KEY_PATH')) }}"
   roles:
     - role: cluster
       clustername: loadbalancer
       clustergroup: fi
-      clusterpw: xQjegJzA9qEtqm2W
-      clusterpwhash: $6$p0VSfSQwQ$JEreEOUNuVoKH.KpNAxqFKGFWB7qOBRQ3bsZSaTspEMtYziUYYAmfs8VfUCy5JhISsY3bW/8aXbyz7hDmzs3G.
+      cluster_ini: "{{ lookup('env', CLUSTER_INI) }}"
     - role: hetzner_cloud_stonith
       api_token: "{{ lookup('env', 'HCLOUD_TOKEN') }}"
       disable_stonith: false
@@ -15,3 +16,24 @@
       permanent: true
       ip_name: 'lb'
       ip_nic: eth0
+    post_tasks:
+      - name: Retrieve the rancher registration image and url
+        rancher_registration:
+        register: rancher_registration_info
+      - name: Check if host has running rancher-agent
+        shell: docker ps | grep rancher-agent
+        ignore_errors: true
+        register: agent_exists
+      - name: Create container
+        docker_container:
+          name: rancher-login
+          state: started
+          image: "{{ rancher_registration_info.image }}"
+          privileged: true
+          volumes:
+          - '/var/run/docker.sock:/var/run/docker.sock'
+          - '/var/lib/rancher:/var/lib/rancher'
+          command:
+          - "{{ rancher_registration_info.registrationUrl  }}"
+        when: agent_exists is defined and agent_exists.failed
+
