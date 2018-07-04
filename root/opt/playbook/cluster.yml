@@ -17,10 +17,13 @@
       floating_ip: "{{ created_floating_ip.ip }}"
       permanent: true
       ip_name: 'lb'
-      ip_nic: eth0
+      ip_nic: ansible_default_ipv4.interface
+    - role: docker
   post_tasks:
     - name: Retrieve the rancher registration image and url
       rancher_registration:
+      delegate_to: localhost
+      run_once: true
       register: rancher_registration_info
     - name: Check if host has running rancher-agent
       shell: docker ps | grep rancher-agent
@@ -31,12 +34,14 @@
         name: rancher-register
         auto_remove: true
         state: started
-        image: "{{ rancher_registration_info.image }}"
+        image: "{{ rancher_registration_info.rancher.image }}"
         privileged: true
+        env:
+          CATTLE_SCHEDULER_IPS: "{{ created_floating_ip.ip }}"
         volumes:
         - '/var/run/docker.sock:/var/run/docker.sock'
         - '/var/lib/rancher:/var/lib/rancher'
         command:
-        - "{{ rancher_registration_info.registration_url  }}"
+        - "{{ rancher_registration_info.rancher.registration_url  }}"
       when: agent_exists is defined and agent_exists.failed
 
