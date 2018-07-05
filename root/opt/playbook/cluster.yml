@@ -7,6 +7,7 @@
         update_cache: yes
   roles:
     - role: cluster
+      cluser_user_password: "{{ lookup('env', 'CLUSTER_USER_PASSWORD') }}"
       clustername: loadbalancer
       ini_file: /data/cluster.ini
     - role: hetzner_cloud_stonith
