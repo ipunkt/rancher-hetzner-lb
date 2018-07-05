@@ -21,10 +21,11 @@
       location: fsn1
       ssh_keys:
       - lb_key
+    register: create_servers
     loop: "{{ lookup('env', 'SERVERS').split(':')|flatten }}"
   - name: Refresh inventory with new servers
     meta: refresh_inventory
   - name: Wait for a few seconds for the new servers to start ssh
     wait_for:
       timeout: 30
-
+    when: create_servers.changed

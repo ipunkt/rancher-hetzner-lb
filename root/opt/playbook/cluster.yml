@@ -22,7 +22,6 @@
   post_tasks:
     - name: Retrieve the rancher registration image and url
       rancher_registration:
-      delegate_to: localhost
       run_once: true
       register: rancher_registration_info
     - name: Check if host has running rancher-agent
@@ -38,6 +37,7 @@
         privileged: true
         env:
           CATTLE_SCHEDULER_IPS: "{{ created_floating_ip.ip }}"
+          CATTLE_HOST_LABELS: "{{ lookup('env', 'HOST_LABELS') }}"
         volumes:
         - '/var/run/docker.sock:/var/run/docker.sock'
         - '/var/lib/rancher:/var/lib/rancher'

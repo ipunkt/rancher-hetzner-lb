@@ -30,6 +30,7 @@ init() {
 	SSH_KEY_NAME="${SSH_KEY_NAME:-loadbalancer_key}"
 	SSH_KEY_PATH="${SSH_KEY_PATH:-./id_rsa}"
 	CLUSTER_INI="${CLUSTER_INI:-./cluster.ini}"
+	HOST_LABELS="${HOST_LABELS:-lb=true}"
 
 	confd -onetime -backend env
 }
