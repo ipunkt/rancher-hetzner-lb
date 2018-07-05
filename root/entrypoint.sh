@@ -19,7 +19,7 @@ fi
 start() {
 
 	cd /opt/playbook
-	ansible-playbook -i library/hcloud_inventory "${SERVERS}" install.yml
+	ansible-playbook install.yml
 }
 
 init() {
@@ -31,8 +31,6 @@ init() {
 	SSH_KEY_PATH="${SSH_KEY_PATH:-./id_rsa}"
 	CLUSTER_INI="${CLUSTER_INI:-./cluster.ini}"
 	HOST_LABELS="${HOST_LABELS:-lb=true}"
-
-	confd -onetime -backend env
 }
 
 init
