@@ -19,6 +19,7 @@
       ip_name: 'lb'
       ip_nic: ansible_default_ipv4.interface
     - role: docker
+      docker_version: 18.03
   post_tasks:
     - name: Retrieve the rancher registration image and url
       rancher_registration:
