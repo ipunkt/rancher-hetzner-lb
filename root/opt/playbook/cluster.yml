@@ -14,7 +14,7 @@
       disable_stonith: false
     - role: cloud_floating_ip
       api_token: "{{ lookup('env', 'HCLOUD_TOKEN') }}"
-      floating_ip: "{{ created_floating_ip.ip }}"
+      floating_ip: "{{ hostvars.localhost.created_floating_ip.ip }}"
       permanent: true
       ip_name: 'lb'
       ip_nic: ansible_default_ipv4.interface
@@ -22,8 +22,8 @@
   post_tasks:
     - name: Retrieve the rancher registration image and url
       rancher_registration:
-      run_once: true
       register: rancher_registration_info
+      delegate_to: localhost
     - name: Check if host has running rancher-agent
       shell: docker ps | grep rancher-agent
       ignore_errors: true
@@ -33,15 +33,15 @@
         name: rancher-register
         auto_remove: true
         state: started
-        image: "{{ rancher_registration_info.rancher.image }}"
+        image: "{{ hostvars.localhost.rancher_registration_info.rancher.image }}"
         privileged: true
         env:
-          CATTLE_SCHEDULER_IPS: "{{ created_floating_ip.ip }}"
+          CATTLE_SCHEDULER_IPS: "{{ hostvars.localhost.created_floating_ip.ip }}"
           CATTLE_HOST_LABELS: "{{ lookup('env', 'HOST_LABELS') }}"
         volumes:
         - '/var/run/docker.sock:/var/run/docker.sock'
         - '/var/lib/rancher:/var/lib/rancher'
         command:
-        - "{{ rancher_registration_info.rancher.registration_url  }}"
+        - "{{ hostvars.localhost.rancher_registration_info.rancher.registration_url  }}"
       when: agent_exists is defined and agent_exists.failed
 
