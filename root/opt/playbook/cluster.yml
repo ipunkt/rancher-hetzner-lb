@@ -18,9 +18,10 @@
       floating_ip: "{{ hostvars.localhost.created_floating_ip.ip }}"
       permanent: true
       ip_name: 'lb'
-      ip_nic: ansible_default_ipv4.interface
+      ip_nic: {{ ansible_default_ipv4.interface }}
     - role: docker
       docker_version: 18.03
+    - role: node_exporter
   post_tasks:
     - name: Retrieve the rancher registration image and url
       rancher_registration:
