@@ -19,7 +19,9 @@ fi
 start() {
 
 	cd /opt/playbook
-	ansible-playbook install.yml
+	while ! ansible-playbook install.yml ; do
+		sleep 1s
+	done
 }
 
 init() {
