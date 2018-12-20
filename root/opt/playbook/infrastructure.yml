@@ -1,5 +1,6 @@
 ---
 - hosts: localhost
+  max_fail_percentage: 0
   gather_facts: false
   roles:
     - role: hcloud_create_ip
