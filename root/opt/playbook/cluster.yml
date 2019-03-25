@@ -10,7 +10,7 @@
       authorized_key:
         key: "{{ lookup('env', 'SSH_EXTRA_PUBKEYS') }}"
         user: root
-      when: lookup('env', 'SSH_EXTRA_PUBKEYS') != "
+      when: lookup('env', 'SSH_EXTRA_PUBKEYS') != ""
   roles:
     - role: cluster
       cluser_user_password: "{{ lookup('env', 'CLUSTER_USER_PASSWORD') }}"
