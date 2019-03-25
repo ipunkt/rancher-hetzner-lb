@@ -18,7 +18,7 @@
       name: "{{ item }}"
       state: present
       image: debian-9
-      server_type: cx11
+      server_type: "{{ lookup('env', 'SERVER_SIZE') }}"
       location: fsn1
       ssh_keys:
       - lb_key

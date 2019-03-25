@@ -26,6 +26,7 @@ start() {
 
 init() {
 	SERVERS="${SERVERS:-lb01:lb02}"
+	SERVER_SIZE="${SERVER_SIZE:-cx11}"
 
 	FLOATING_IP="${FLOATING_IP:-loadbalancer}"
 
@@ -33,6 +34,7 @@ init() {
 	SSH_KEY_PATH="${SSH_KEY_PATH:-./id_rsa}"
 	CLUSTER_INI="${CLUSTER_INI:-./cluster.ini}"
 	HOST_LABELS="${HOST_LABELS:-lb=true}"
+	SSH_EXTRA_PUBKEYS="${SSH_EXTRA_PUBKEYS}"
 }
 
 init
