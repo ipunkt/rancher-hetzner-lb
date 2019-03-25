@@ -25,16 +25,16 @@ start() {
 }
 
 init() {
-	SERVERS="${SERVERS:-lb01:lb02}"
-	SERVER_SIZE="${SERVER_SIZE:-cx11}"
+	export SERVERS="${SERVERS:-lb01:lb02}"
+	export SERVER_SIZE="${SERVER_SIZE:-cx11}"
 
-	FLOATING_IP="${FLOATING_IP:-loadbalancer}"
+	export FLOATING_IP="${FLOATING_IP:-loadbalancer}"
 
-	SSH_KEY_NAME="${SSH_KEY_NAME:-loadbalancer_key}"
-	SSH_KEY_PATH="${SSH_KEY_PATH:-./id_rsa}"
-	CLUSTER_INI="${CLUSTER_INI:-./cluster.ini}"
-	HOST_LABELS="${HOST_LABELS:-lb=true}"
-	SSH_EXTRA_PUBKEYS="${SSH_EXTRA_PUBKEYS}"
+	export SSH_KEY_NAME="${SSH_KEY_NAME:-loadbalancer_key}"
+	export SSH_KEY_PATH="${SSH_KEY_PATH:-./id_rsa}"
+	export CLUSTER_INI="${CLUSTER_INI:-./cluster.ini}"
+	export HOST_LABELS="${HOST_LABELS:-lb=true}"
+	export SSH_EXTRA_PUBKEYS="${SSH_EXTRA_PUBKEYS}"
 }
 
 init
