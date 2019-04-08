@@ -29,6 +29,8 @@ init() {
 	export SERVER_SIZE="${SERVER_SIZE:-cx11}"
 
 	export FLOATING_IP="${FLOATING_IP:-loadbalancer}"
+	export FLOATING_IP_MONITOR_INTERVAL="${FLOATING_IP_MONITOR_INTERVAL:-40}"
+	export FLOATING_IP_MONITOR_TIMEOUT="${FLOATING_IP_MONITOR_TIMEOUT:-120}"
 
 	export SSH_KEY_NAME="${SSH_KEY_NAME:-loadbalancer_key}"
 	export SSH_KEY_PATH="${SSH_KEY_PATH:-./id_rsa}"

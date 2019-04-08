@@ -23,6 +23,8 @@
       api_token: "{{ lookup('env', 'HCLOUD_TOKEN') }}"
       floating_ip: "{{ hostvars.localhost.created_floating_ip.ip }}"
       permanent: true
+      interval: "{{ lookup('env', 'FLOATING_IP_MONITOR_INTERVAL') }}s"
+      timeout: "{{ lookup('env', 'FLOATING_IP_MONITOR_TIMEOUT') }}s"
       ip_name: 'lb'
       ip_nic: "{{ ansible_default_ipv4.interface }}"
     - role: docker
