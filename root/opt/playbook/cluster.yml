@@ -29,6 +29,7 @@
       ip_name: 'lb'
       ip_nic: "{{ ansible_default_ipv4.interface }}"
     - role: docker
+      log_driver: json-file
       docker_version: 18.03
     - role: node_exporter
   post_tasks:
