@@ -27,6 +27,7 @@ start() {
 init() {
 	export SERVERS="${SERVERS:-lb01:lb02}"
 	export SERVER_SIZE="${SERVER_SIZE:-cx11}"
+	export CLUSTER_TIMEOUT="${CLUSTER_TIMEOUT:-10000}"
 
 	export FLOATING_IP="${FLOATING_IP:-loadbalancer}"
 	export FLOATING_IP_MONITOR_INTERVAL="${FLOATING_IP_MONITOR_INTERVAL:-40}"

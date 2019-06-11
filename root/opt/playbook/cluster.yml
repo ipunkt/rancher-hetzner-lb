@@ -13,6 +13,7 @@
       when: lookup('env', 'SSH_EXTRA_PUBKEYS') != ""
   roles:
     - role: cluster
+      timeout: "{{ lookup('env', 'CLUSTER_TIMEOUT') }}"
       cluser_user_password: "{{ lookup('env', 'CLUSTER_USER_PASSWORD') }}"
       clustername: loadbalancer
       ini_file: /data/cluster.ini
